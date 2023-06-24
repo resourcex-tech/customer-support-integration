@@ -1,0 +1,57 @@
+.rcs-form {
+    padding: 30px 25px;
+    background: #fff !important;
+    box-shadow: 0 5px 7px -3px #d3d3d3;
+    border-radius: 6px;
+    position: relative;
+    width: 100%;
+  
+    .rcs-formRow {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 25px;
+      gap: 30px;
+  
+      &:last-child {
+        margin: 0;
+      }
+    }
+  
+    .rcs-formCol {
+      width: 100%;
+    }
+  
+    .rcs-inputLabel {
+      font-size: 13px;
+      font-weight: 600;
+      color: #757575;
+      margin-bottom: 5px;
+    }
+  
+    .rcs-textarea,
+    .rcs-input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 6px;
+      border: 2px solid #333;
+    }
+  
+    .rcs-btn {
+      border: 0;
+      padding: 10px 12px;
+      background: #494949;
+      color: #fff;
+      border-radius: 6px;
+  
+      &.btn-green {
+        &:hover {
+          cursor: pointer;
+          color: #fff !important;
+        }
+      }
+    }
+  
+    .rcs-btn-green {
+      background: #10b249 !important;
+    }
+  }
