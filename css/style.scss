@@ -10,7 +10,7 @@
       display: flex;
       justify-content: space-between;
       margin-bottom: 25px;
-      gap: 30px;
+      gap: 3%;
   
       &:last-child {
         margin: 0;
@@ -18,7 +18,7 @@
     }
   
     .rcs-formCol {
-      width: 100%;
+      width: 48%;
     }
   
     .rcs-inputLabel {
@@ -28,8 +28,8 @@
       margin-bottom: 5px;
     }
   
-    .rcs-textarea,
-    .rcs-input {
+    .rcs-formCol textarea,
+    .rcs-inputText {
       width: 100%;
       padding: 12px;
       border-radius: 6px;
