@@ -122,3 +122,53 @@ function rcs__createFormElement(elementType, className, textContent, inputType, 
     return element.value;
   }
   
+
+  function rcs_renderTicketsAndComments() {
+    // Fetch tickets and comments from the API
+    fetch(`http://localhost:3003/api/v1/public_ticket?site_product_id=${rcs__targetDiv.dataset.productId}`)
+        .then(response => response.json())
+        .then(tickets => {
+
+            const ticketsDiv = document.getElementById('resourcex-customer-support-tickets');
+
+            // Render tickets
+            tickets.forEach(ticket => {
+                const ticketDiv = document.createElement('div');
+                ticketDiv.className = 'rcs-ticket';
+                ticketDiv.innerText = `Ticket #${ticket.id}: ${ticket.question_text}`;
+                ticketsDiv.appendChild(ticketDiv);
+
+                // // Render comments for each ticket
+                // const ticketComments = comments.filter(comment => comment.ticketId === ticket.id);
+                ticket.comments.forEach(comment => {
+                    
+                  const commentDiv = document.createElement('div');
+                  commentDiv.className = comment.user_type === 'agent' ? 'rcs-comment rcs-comment-agent' : 'rcs-comment';
+                  
+                  const commentHeaderDiv = document.createElement('div');
+                  commentHeaderDiv.className = 'rcs-comment-header';
+                  
+                  const commentDateSpan = document.createElement('span');
+                  commentDateSpan.className = 'rcs-comment-date';
+                  var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+
+                  commentDateSpan.innerText = new Date(comment.timestamp.replace(' ', 'T')).toLocaleDateString('en-US', options);
+                  commentHeaderDiv.appendChild(commentDateSpan);
+                  
+                  const commentBodyDiv = document.createElement('div');
+                  commentBodyDiv.className = 'rcs-comment-body';
+                  commentBodyDiv.innerText = comment.comment_text;
+                  
+                  commentDiv.appendChild(commentHeaderDiv);
+                  commentDiv.appendChild(commentBodyDiv);
+                  
+                  ticketDiv.appendChild(commentDiv);
+
+                    
+                });
+            });
+        })
+        .catch(error => console.log(error));
+}
+
+rcs_renderTicketsAndComments();

@@ -5,6 +5,7 @@
     border-radius: 6px;
     position: relative;
     width: 100%;
+    box-sizing: border-box;
   
     .rcs-formRow {
       display: flex;
@@ -55,3 +56,50 @@
       background: #10b249 !important;
     }
   }
+
+.rcs-ticket {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #f5f5f5;
+}
+
+.rcs-comment {
+    margin-bottom: 5px;
+    padding: 10px 12px;
+    background-color: #fff;
+}
+
+.rcs-comment .rcs-comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+    font-size: 13px;
+}
+
+.rcs-comment .rcs-comment-header .rcs-comment-author {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+}
+
+.rcs-comment .rcs-comment-header .rcs-comment-date {
+    font-size: 12px;
+    font-weight: 600;
+    color: #757575;
+}
+
+.rcs-comment .rcs-comment-body {
+    font-size: 16px;
+    color: #333;
+    margin-top: 12px;
+}
+
+.rcs-comment .rcs-comment-body .rcs-comment-text {
+    margin-bottom: 5px;
+}
+
+.rcs-comment-agent {
+    margin-bottom: 5px;
+    background: #ffecca;
+}
