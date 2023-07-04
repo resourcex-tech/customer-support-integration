@@ -113,16 +113,26 @@ function rcs__createFormElement(elementType, className, textContent, inputType, 
       site_product_id: rcs__targetDiv.dataset.productId,
     };
 
-    fetch('https://customer-support-public-api.resourcex.co/api/v1/public_ticket/create', {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(rcs__formData)
-    })
-   .then(response => response.json())
-   .then(response => console.log(JSON.stringify(response)))
+
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        // Add any additional headers if required
+      },
+      body: JSON.stringify(rcs__formData),
+    };
+    
+    fetch('https://customer-support-public-api.resourcex.co/api/v1/public_ticket/create', requestOptions)
+      .then(response => response.json())
+      .then(data => {
+        // Handle the response data
+        console.log(data);
+      })
+      .catch(error => {
+        // Handle any errors
+        console.error('Error:', error);
+      });
   
   });
   
