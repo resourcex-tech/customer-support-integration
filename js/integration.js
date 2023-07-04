@@ -100,10 +100,17 @@ function rcs__createFormElement(elementType, className, textContent, inputType, 
   // Append the form to the target div
   const rcs__targetDiv = document.getElementById(rcs__formTargetDivId);
   rcs__targetDiv.appendChild(rcs__form);
+
+  const rcs__noticeClass = "rcs-notice";
+  const rcs__notice = document.createElement('div');
+  rcs__notice.className = rcs__noticeClass;
+  rcs__notice.innerText = "Your question has been received and will be answered by agent within 24 hours."
+
+  rcs__targetDiv.prepend(rcs__notice)
   
   rcs__form.addEventListener('submit', (e) => {
     e.preventDefault();
-
+    rcs__notice.className = rcs__noticeClass;
     const rcs__formData = {
       name: rcs__getValue('name'),
       email: rcs__getValue('email'),
@@ -112,12 +119,15 @@ function rcs__createFormElement(elementType, className, textContent, inputType, 
       question_text: rcs__getValue('question_text'),
       site_product_id: rcs__targetDiv.dataset.productId,
     };
-
+    
+    document.getElementsByClassName(rcs__btnClass)[0].disabled = true
+    
 
     const requestOptions = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        
         // Add any additional headers if required
       },
       body: JSON.stringify(rcs__formData),
@@ -127,11 +137,14 @@ function rcs__createFormElement(elementType, className, textContent, inputType, 
       .then(response => response.json())
       .then(data => {
         // Handle the response data
-        console.log(data);
+        rcs__notice.className = rcs__noticeClass + ' success';
+        document.getElementsByClassName('rcs-btn')[0].disabled = false
       })
       .catch(error => {
         // Handle any errors
-        console.error('Error:', error);
+        rcs__notice.className = rcs__noticeClass + ' error';
+        rcs__notice.innerText = 'Failed to submit question, please try again...'
+        document.getElementsByClassName('rcs-btn')[0].disabled = false
       });
   
   });

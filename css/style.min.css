@@ -94,4 +94,31 @@
   background: #ffecca;
 }
 
+.rcs-notice {
+  padding: 12px;
+  background: #ffffff;
+  border: 2px solid #333;
+  border-radius: 5px;
+  margin-bottom: 8px;
+  display: none;
+}
+
+.rcs-notice.error {
+  border-color: #ac1818;
+  color: #890202;
+  display: block;
+}
+
+.rcs-notice.success {
+  border-color: #4CAF50;
+  color: #0f5512;
+  display: block;
+}
+
+.rcs-btn[disabled] {
+  background: #d3d3d3 !important;
+  color: #777;
+  cursor: not-allowed;
+}
+
 /*# sourceMappingURL=style.min.css.map */
