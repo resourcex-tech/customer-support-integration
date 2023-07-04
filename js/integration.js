@@ -113,7 +113,16 @@ function rcs__createFormElement(elementType, className, textContent, inputType, 
       site_product_id: rcs__targetDiv.dataset.productId,
     };
 
-    console.log(rcs__formData);
+    fetch('https://customer-support-public-api.resourcex.co/api/v1/public_ticket/create', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(rcs__formData)
+    })
+   .then(response => response.json())
+   .then(response => console.log(JSON.stringify(response)))
   
   });
   
@@ -125,7 +134,7 @@ function rcs__createFormElement(elementType, className, textContent, inputType, 
 
   function rcs_renderTicketsAndComments() {
     // Fetch tickets and comments from the API
-    fetch(`http://localhost:3003/api/v1/public_ticket?site_product_id=${rcs__targetDiv.dataset.productId}`)
+    fetch(`https://customer-support-public-api.resourcex.co/api/v1/public_ticket?site_product_id=${rcs__targetDiv.dataset.productId}`)
         .then(response => response.json())
         .then(tickets => {
 
