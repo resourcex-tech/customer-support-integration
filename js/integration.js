@@ -1,4 +1,4 @@
-function rcs__createFormElement(elementType, className, textContent, inputType, placeholder, id) {
+function rcs__createFormElement(elementType, className, textContent, inputType, placeholder, name) {
     const element = document.createElement(elementType);
     element.className = className;
     element.textContent = textContent;
@@ -6,9 +6,9 @@ function rcs__createFormElement(elementType, className, textContent, inputType, 
     if (elementType === 'input') {
       element.type = inputType;
       element.placeholder = placeholder;
-      element.id = id;
+      element.name = name;
     } else if (elementType === 'textarea') {
-      element.id = id;
+      element.name = name;
     } else if (elementType === 'button') {
       element.type = 'submit';
     }
@@ -27,6 +27,7 @@ function rcs__createFormElement(elementType, className, textContent, inputType, 
   const rcs__btnClass = 'rcs-btn';
   const rcs__btnGreenClass = 'rcs-btnGreen';
   const rcs__formTargetDivId = 'resourcex-customer-support-form';
+  const rcs__commentFormClass = 'rcs-comment-form';
   
   // Create the form element
   const rcs__form = rcs__createFormElement('form', rcs__formClass, '');
@@ -150,7 +151,7 @@ function rcs__createFormElement(elementType, className, textContent, inputType, 
   });
   
   function rcs__getValue(elementId) {
-    const element = document.getElementById(elementId);
+    const element = document.querySelector(`[name="${elementId}"]`);
     return element.value;
   }
   
@@ -198,9 +199,61 @@ function rcs__createFormElement(elementType, className, textContent, inputType, 
 
                     
                 });
+
+                let comment_form = rcs__createFormElement('form', rcs__formClass);
+                comment_form.method = 'POST';
+                comment_form.action = 'https://customer-support-public-api.resourcex.co/api/v1/public_ticket/comment';
+                let comment_form_row = rcs__createFormElement('div', rcs__formRowClass);
+                let comment_form_col = rcs__createFormElement('div', rcs__formColClass);
+                let comment_form_col1 = rcs__createFormElement('div', rcs__formColClass);
+
+                let comment_form_row1 = rcs__createFormElement('div', rcs__formRowClass);
+                let comment_form_col2 = rcs__createFormElement('div', rcs__formColClass);
+
+                let comment_form_row2 = rcs__createFormElement('div', rcs__formRowClass);
+                let comment_form_col3 = rcs__createFormElement('div', rcs__formColClass);
+
+                let ticket_id = rcs__createFormElement('input', rcs__inputTextClass, '', 'hidden', '', 'question_id');
+                ticket_id.value = ticket.id;
+
+                let redirect = rcs__createFormElement('input', rcs__inputTextClass, '', 'hidden', '', 'redirect');
+                redirect.value = window.location.href;
+
+                let name = rcs__createFormElement('input', rcs__inputTextClass, '', 'text', 'John Doe', 'name');
+                let email = rcs__createFormElement('input', rcs__inputTextClass, '', 'email', 'john@example.com', 'email');
+
+                let comment_text = rcs__createFormElement('textarea', '', '', '', '', 'comment_text');
+                comment_text.placeholder = "Add a comment...";
+                comment_text.required = true;
+
+                let comment_button = rcs__createFormElement('button', `${rcs__btnClass} ${rcs__btnGreenClass}`, 'Submit');
+                comment_button.type = 'submit';
+
+                comment_form_col.appendChild(name);
+                comment_form_col1.appendChild(email);
+                comment_form_row.appendChild(comment_form_col);
+                comment_form_row.appendChild(comment_form_col1);
+
+                comment_form_col2.appendChild(comment_text);
+                comment_form_row1.appendChild(comment_form_col2);
+
+                comment_form_col3.appendChild(comment_button);
+                comment_form_col3.appendChild(ticket_id);
+                comment_form_col3.appendChild(redirect);
+                comment_form_row2.appendChild(comment_form_col3);
+                
+                comment_form.appendChild(comment_form_row);
+                comment_form.appendChild(comment_form_row1);
+                comment_form.appendChild(comment_form_row2);
+
+
+                
+                ticketDiv.appendChild(comment_form)
             });
+            
         })
         .catch(error => console.log(error));
 }
+
 
 rcs_renderTicketsAndComments();
