@@ -79,7 +79,7 @@ function rcs__createFormElement(elementType, className, textContent, inputType, 
   
   const rcs__questionCol = rcs__createFormElement('div', rcs__formColClass, '');
   const rcs__questionInputLabel = rcs__createFormElement('div', rcs__inputLabelClass, 'Question');
-  const rcs__questionTextarea = rcs__createFormElement('textarea', '', '', '', '', 'question_text');
+  const rcs__questionTextarea = rcs__createFormElement('textarea', '', '', '', '', 'ticket_text');
   
   rcs__questionCol.appendChild(rcs__questionInputLabel);
   rcs__questionCol.appendChild(rcs__questionTextarea);
@@ -117,8 +117,11 @@ function rcs__createFormElement(elementType, className, textContent, inputType, 
       email: rcs__getValue('email'),
       model_id: rcs__getValue('model_id'),
       part_id: rcs__getValue('part_id'),
-      question_text: rcs__getValue('question_text'),
-      site_product_id: rcs__targetDiv.dataset.productId,
+      ticket_text: rcs__getValue('ticket_text'),
+      site_product_id: 2,
+      site_id: 1,
+      status: "Pending",
+      visibility: "Public",
     };
     
     document.getElementsByClassName(rcs__btnClass)[0].disabled = true
@@ -134,7 +137,7 @@ function rcs__createFormElement(elementType, className, textContent, inputType, 
       body: JSON.stringify(rcs__formData),
     };
     
-    fetch('https://customer-support-public-api.resourcex.co/api/v1/public_ticket/create', requestOptions)
+    fetch('https://tickets-api.dev.macaan.ai/ticket', requestOptions)
       .then(response => response.json())
       .then(data => {
         // Handle the response data
@@ -158,97 +161,97 @@ function rcs__createFormElement(elementType, className, textContent, inputType, 
 
   function rcs_renderTicketsAndComments() {
     // Fetch tickets and comments from the API
-    fetch(`https://customer-support-public-api.resourcex.co/api/v1/public_ticket?site_product_id=${rcs__targetDiv.dataset.productId}`)
+    fetch(`https://tickets-api.dev.macaan.ai/ticket`)
         .then(response => response.json())
         .then(tickets => {
 
             const ticketsDiv = document.getElementById('resourcex-customer-support-tickets');
 
             // Render tickets
-            tickets.forEach(ticket => {
+            tickets.data.forEach(ticket => {
                 const ticketDiv = document.createElement('div');
                 ticketDiv.className = 'rcs-ticket';
-                ticketDiv.innerText = `Ticket #${ticket.id}: ${ticket.question_text}`;
+                ticketDiv.innerText = `Ticket #${ticket.id} (${ticket.status}): ${ticket.ticket_text}`;
                 ticketsDiv.appendChild(ticketDiv);
 
                 // // Render comments for each ticket
                 // const ticketComments = comments.filter(comment => comment.ticketId === ticket.id);
-                ticket.comments.forEach(comment => {
+                // ticket.comments.forEach(comment => {
                     
-                  const commentDiv = document.createElement('div');
-                  commentDiv.className = comment.user_type === 'agent' ? 'rcs-comment rcs-comment-agent' : 'rcs-comment';
+                //   const commentDiv = document.createElement('div');
+                //   commentDiv.className = comment.user_type === 'agent' ? 'rcs-comment rcs-comment-agent' : 'rcs-comment';
                   
-                  const commentHeaderDiv = document.createElement('div');
-                  commentHeaderDiv.className = 'rcs-comment-header';
+                //   const commentHeaderDiv = document.createElement('div');
+                //   commentHeaderDiv.className = 'rcs-comment-header';
                   
-                  const commentDateSpan = document.createElement('span');
-                  commentDateSpan.className = 'rcs-comment-date';
-                  var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                //   const commentDateSpan = document.createElement('span');
+                //   commentDateSpan.className = 'rcs-comment-date';
+                //   var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
-                  commentDateSpan.innerText = new Date(comment.timestamp.replace(' ', 'T')).toLocaleDateString('en-US', options);
-                  commentHeaderDiv.appendChild(commentDateSpan);
+                //   commentDateSpan.innerText = new Date(comment.timestamp.replace(' ', 'T')).toLocaleDateString('en-US', options);
+                //   commentHeaderDiv.appendChild(commentDateSpan);
                   
-                  const commentBodyDiv = document.createElement('div');
-                  commentBodyDiv.className = 'rcs-comment-body';
-                  commentBodyDiv.innerText = comment.comment_text;
+                //   const commentBodyDiv = document.createElement('div');
+                //   commentBodyDiv.className = 'rcs-comment-body';
+                //   commentBodyDiv.innerText = comment.comment_text;
                   
-                  commentDiv.appendChild(commentHeaderDiv);
-                  commentDiv.appendChild(commentBodyDiv);
+                //   commentDiv.appendChild(commentHeaderDiv);
+                //   commentDiv.appendChild(commentBodyDiv);
                   
-                  ticketDiv.appendChild(commentDiv);
+                //   ticketDiv.appendChild(commentDiv);
 
                     
-                });
+                // });
 
-                let comment_form = rcs__createFormElement('form', rcs__formClass);
-                comment_form.method = 'POST';
-                comment_form.action = 'https://customer-support-public-api.resourcex.co/api/v1/public_ticket/comment';
-                let comment_form_row = rcs__createFormElement('div', rcs__formRowClass);
-                let comment_form_col = rcs__createFormElement('div', rcs__formColClass);
-                let comment_form_col1 = rcs__createFormElement('div', rcs__formColClass);
+                // let comment_form = rcs__createFormElement('form', rcs__formClass);
+                // comment_form.method = 'POST';
+                // comment_form.action = 'https://customer-support-public-api.resourcex.co/api/v1/public_ticket/comment';
+                // let comment_form_row = rcs__createFormElement('div', rcs__formRowClass);
+                // let comment_form_col = rcs__createFormElement('div', rcs__formColClass);
+                // let comment_form_col1 = rcs__createFormElement('div', rcs__formColClass);
 
-                let comment_form_row1 = rcs__createFormElement('div', rcs__formRowClass);
-                let comment_form_col2 = rcs__createFormElement('div', rcs__formColClass);
+                // let comment_form_row1 = rcs__createFormElement('div', rcs__formRowClass);
+                // let comment_form_col2 = rcs__createFormElement('div', rcs__formColClass);
 
-                let comment_form_row2 = rcs__createFormElement('div', rcs__formRowClass);
-                let comment_form_col3 = rcs__createFormElement('div', rcs__formColClass);
+                // let comment_form_row2 = rcs__createFormElement('div', rcs__formRowClass);
+                // let comment_form_col3 = rcs__createFormElement('div', rcs__formColClass);
 
-                let ticket_id = rcs__createFormElement('input', rcs__inputTextClass, '', 'hidden', '', 'question_id');
-                ticket_id.value = ticket.id;
+                // let ticket_id = rcs__createFormElement('input', rcs__inputTextClass, '', 'hidden', '', 'question_id');
+                // ticket_id.value = ticket.id;
 
-                let redirect = rcs__createFormElement('input', rcs__inputTextClass, '', 'hidden', '', 'redirect');
-                redirect.value = window.location.href;
+                // let redirect = rcs__createFormElement('input', rcs__inputTextClass, '', 'hidden', '', 'redirect');
+                // redirect.value = window.location.href;
 
-                let name = rcs__createFormElement('input', rcs__inputTextClass, '', 'text', 'John Doe', 'name');
-                let email = rcs__createFormElement('input', rcs__inputTextClass, '', 'email', 'john@example.com', 'email');
+                // let name = rcs__createFormElement('input', rcs__inputTextClass, '', 'text', 'John Doe', 'name');
+                // let email = rcs__createFormElement('input', rcs__inputTextClass, '', 'email', 'john@example.com', 'email');
 
-                let comment_text = rcs__createFormElement('textarea', '', '', '', '', 'comment_text');
-                comment_text.placeholder = "Add a comment...";
-                comment_text.required = true;
+                // let comment_text = rcs__createFormElement('textarea', '', '', '', '', 'comment_text');
+                // comment_text.placeholder = "Add a comment...";
+                // comment_text.required = true;
 
-                let comment_button = rcs__createFormElement('button', `${rcs__btnClass} ${rcs__btnGreenClass}`, 'Submit');
-                comment_button.type = 'submit';
+                // let comment_button = rcs__createFormElement('button', `${rcs__btnClass} ${rcs__btnGreenClass}`, 'Submit');
+                // comment_button.type = 'submit';
 
-                comment_form_col.appendChild(name);
-                comment_form_col1.appendChild(email);
-                comment_form_row.appendChild(comment_form_col);
-                comment_form_row.appendChild(comment_form_col1);
+                // comment_form_col.appendChild(name);
+                // comment_form_col1.appendChild(email);
+                // comment_form_row.appendChild(comment_form_col);
+                // comment_form_row.appendChild(comment_form_col1);
 
-                comment_form_col2.appendChild(comment_text);
-                comment_form_row1.appendChild(comment_form_col2);
+                // comment_form_col2.appendChild(comment_text);
+                // comment_form_row1.appendChild(comment_form_col2);
 
-                comment_form_col3.appendChild(comment_button);
-                comment_form_col3.appendChild(ticket_id);
-                comment_form_col3.appendChild(redirect);
-                comment_form_row2.appendChild(comment_form_col3);
+                // comment_form_col3.appendChild(comment_button);
+                // comment_form_col3.appendChild(ticket_id);
+                // comment_form_col3.appendChild(redirect);
+                // comment_form_row2.appendChild(comment_form_col3);
                 
-                comment_form.appendChild(comment_form_row);
-                comment_form.appendChild(comment_form_row1);
-                comment_form.appendChild(comment_form_row2);
+                // comment_form.appendChild(comment_form_row);
+                // comment_form.appendChild(comment_form_row1);
+                // comment_form.appendChild(comment_form_row2);
 
 
                 
-                ticketDiv.appendChild(comment_form)
+                // ticketDiv.appendChild(comment_form)
             });
             
         })
